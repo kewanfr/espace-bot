@@ -1,11 +1,17 @@
 const { ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
-	name: "presentation-msg",
-	description: "Envoie le boutton de présentation",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "presentation-msg",
+		description: "Envoie le msg du salon presentation",
+		slash: false,
+		category: "messages",
+		aliases: ["presentation-msg"],
+		usage: "presentation-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 		const presentationButton = new ButtonBuilder().setCustomId("presentation").setLabel("📝 Rédiger ma présentation").setStyle(ButtonStyle.Success);
     let socialButton = new ButtonBuilder().setCustomId("add-social-presentation").setLabel("Ajouter mes réseaux sociaux").setStyle(ButtonStyle.Secondary)

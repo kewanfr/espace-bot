@@ -1,19 +1,24 @@
-
 module.exports = {
-	name: "function",
-	description: "function",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "function",
+		description: "function",
+		slash: false,
+		category: "admin",
+		aliases: ["function"],
+		usage: "function",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 
 		// set Permission to all channels in a category
 
-		const channels = message.guild.channels.fetch();
+		// const channels = message.guild.channels.fetch();
 
-		message.guild.channels.cache.filter(channel => channel.name === "𝑃𝑙𝑢𝑠").forEach(channel => {
-			channel.setName("𝑄𝑢𝑒𝑒𝑟+");
-		});
+		// message.guild.channels.cache.filter(channel => channel.name === "𝑃𝑙𝑢𝑠").forEach(channel => {
+		// 	channel.setName("𝑄𝑢𝑒𝑒𝑟+");
+		// });
 
 		// let category = "1011365866362916914";
 		// let roleId = "1011725018432032809";

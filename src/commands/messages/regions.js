@@ -2,11 +2,17 @@ const { ActionRowBuilder, SelectMenuBuilder, SelectMenuOptionBuilder } = require
 const { departementsByRegions } = require('../../utils/infos');
 
 module.exports = {
-	name: "regions",
-	description: "Régions",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "regions-msg",
+		description: "Envoie le msg du salon regions",
+		slash: false,
+		category: "messages",
+		aliases: ["regions-msg"],
+		usage: "regions-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 
 		const menu = new SelectMenuBuilder()

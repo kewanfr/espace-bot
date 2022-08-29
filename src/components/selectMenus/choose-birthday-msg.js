@@ -5,7 +5,6 @@ module.exports = {
     name: 'choose-birthday-msg',
   },
   async execute(client, interaction) {
-    console.log(interaction.values);
     let value = interaction.values[0];
 
     let birthdateEntry = await birthdateModel.findOne({ userID: interaction.user.id, guildID: interaction.guild.id });

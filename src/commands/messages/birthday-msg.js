@@ -1,11 +1,17 @@
 const { ButtonBuilder, ButtonStyle, ActionRowBuilder, SelectMenuOptionBuilder, SelectMenuBuilder } = require('discord.js');
 
 module.exports = {
-	name: "birthday-msg",
-	description: "Envoie le msg du salon anniversaire",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "birthday-msg",
+		description: "Envoie le msg du salon anniversaire",
+		slash: false,
+		category: "messages",
+		aliases: ["birthday-msg"],
+		usage: "birthday-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 		let birthdayMenu = new SelectMenuBuilder()
 		.setCustomId("choose-birthday-msg")

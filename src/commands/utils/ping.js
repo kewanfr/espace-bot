@@ -1,12 +1,22 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-	name: "ping",
-	description: "Ping le bot",
-	type: ["slash", "cmd"],
-	aliases: ["latence"],
-	build: new SlashCommandBuilder().setName("ping").setDescription("Ping le bot"),
-	deletemsg: false,
+  help: {
+    name: "ping",
+    description: "Obtenir la latence du bot",
+    slash: 'both',
+    category: "utils",
+    aliases: ["latence"],
+    usage: "ping",
+    cooldown: 5,
+    deletemsg: true,
+  },
+  slash: [
+    {
+      name: 'ping',
+      description: 'Obtenir la latence du bot',
+    }
+  ],
 	run: async(client, message, args) => {
 		const msg = await message.channel.send(`🏓 Pong!\n\`${client.ws.ping}ms\``);
 		const newMsg = `🏓 Pong!\nPing de l'API: ${client.ws.ping}ms\nPing du Client: ${msg.createdTimestamp - message.createdTimestamp}ms`;

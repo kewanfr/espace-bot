@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionFlagsBits } = require('discord.js');
 
 const Guild = require('../../schemas/guildModel');
 const mongoose = require('mongoose');
@@ -24,10 +24,17 @@ const clean = async (text) => {
 	}
 
 module.exports = {
-	name: "eval",
-	description: "Eval Code",
-	type: ["cmd"],
-	deletemsg: false,
+	help: {
+		name: "eval",
+		description: "Eval Code",
+		slash: false,
+		category: "admin",
+		aliases: ["eval"],
+		usage: "eval <code>",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: false,
+	},
 	run: async(client, message, args) => {
 
 		try {

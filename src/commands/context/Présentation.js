@@ -5,14 +5,19 @@ const {
 } = require("discord.js");
 
 module.exports = {
-  name: "Présentation",
-  description: "Obtenir la présentation d'un utilisateur",
-  type: ["context"],
-  aliases: ["bouton"],
-  build: new ContextMenuCommandBuilder()
-    .setName("Présentation")
-    .setType(ApplicationCommandType.User),
-		
+  
+  help: {
+    name: "Présentation",
+    description: "Obtenir la présentation d'un utilisateur",
+    slash: "context",
+    context: true
+  },
+  slash: [
+    {
+      name: "Présentation",
+      type: ApplicationCommandType.User,
+    }
+  ],		
   runContextMenu: async (client, interaction) => {
     let member = await interaction.guild.members.fetch(interaction.targetId);
 

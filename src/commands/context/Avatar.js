@@ -4,14 +4,18 @@ const {
 } = require("discord.js");
 
 module.exports = {
-  name: "Avatar",
-  description: "Obtenir l'avatar d'un utilisateur",
-  type: ["context"],
-  aliases: ["bouton"],
-  build: new ContextMenuCommandBuilder()
-    .setName("Avatar")
-    .setType(ApplicationCommandType.User),
-		
+  help: {
+    name: "Avatar",
+    description: "Obtenir l'avatar d'un utilisateur",
+    slash: "context",
+    context: true
+  },
+  slash: [
+    {
+      name: "Avatar",
+      type: ApplicationCommandType.User,
+    }
+  ],
   runContextMenu: async (client, interaction) => {
     await interaction.reply({
       content: `${interaction.targetUser.displayAvatarURL()}`,

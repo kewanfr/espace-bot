@@ -1,11 +1,17 @@
 const { ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-	name: "ticket-msg",
-	description: "Envoie le message de création de Ticket",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "ticket-msg",
+		description: "Envoie le msg de création de Ticket",
+		slash: false,
+		category: "messages",
+		aliases: ["ticket-msg"],
+		usage: "ticket-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 
 

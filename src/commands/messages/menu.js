@@ -27,18 +27,18 @@ const command = () => {
 };
 
 module.exports = {
-  name: "menu",
-  description: "Renvoie un menu",
-  type: ["cmd"],
-  build: new SlashCommandBuilder()
-    .setName("menu")
-    .setDescription("Renvoie un menu"),
-  deletemsg: true,
-
+	help: {
+		name: "menu",
+		description: "Envoie un menu",
+		slash: false,
+		category: "messages",
+		aliases: ["menu-msg"],
+		usage: "menu-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
   run: async (client, message, args) => {
     await message.channel.send(command());
-  },
-  runSlash: async (client, interaction) => {
-    await interaction.reply(command());
   },
 };

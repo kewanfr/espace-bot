@@ -9,17 +9,18 @@ const command = () => {
 }
 
 module.exports = {
-	name: "birthdate",
-	description: "Bouton pour la date de naissance",
-	type: ["slash", "cmd"],
-	aliases: ["bouton"],
-	build: new SlashCommandBuilder().setName("birthdate").setDescription("Bouton pour la date de naissance"),
-	deletemsg: false,
-
+	help: {
+		name: "birthdate",
+		description: "Envoie le bouton de birthdate",
+		slash: false,
+		category: "messages",
+		aliases: ["birthdate"],
+		usage: "birthdate",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 		await message.channel.send(command());
 	},
-	runSlash: async(client, interaction) => {
-		await interaction.reply(command());
-	}
 };

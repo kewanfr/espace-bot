@@ -27,14 +27,18 @@ const command = async (interaction) => {
 };
 
 module.exports = {
-  name: "modal",
-  description: "Renvoie un modal",
-  type: ["slash"],
-  build: new SlashCommandBuilder()
+	help: {
+		name: "modal",
+		description: "Envoie le msg de modal",
+		slash: true,
+		category: "messages",
+		deletemsg: true,
+	},
+  slash: [new SlashCommandBuilder()
     .setName("modal")
     .setDescription("Renvoie un modal")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
-  deletemsg: false,
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator).toJSON()
+  ],
   runSlash: async (client, interaction) => {
     command(interaction)
   },

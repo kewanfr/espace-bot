@@ -18,11 +18,17 @@ function buildOptions(menu, options){
 }
 
 module.exports = {
-	name: "roles",
-	description: "Roles",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "roles-msg",
+		description: "Envoie le msg du salon roles",
+		slash: false,
+		category: "messages",
+		aliases: ["roles-msg"],
+		usage: "roles-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 
 		let orientationMenu = new SelectMenuBuilder()

@@ -1,11 +1,17 @@
 const { GuildModel, mongoose } = require('../../schemas/index');
 
 module.exports = {
-	name: "database",
-	description: "Renvoie des informations sur la database",
-	type: ["cmd"],
-	// build: new SlashCommandBuilder().setName("database").setDescription("Renvoie les informations sur la database"),
-	deletemsg: true,
+	help: {
+		name: 'database',
+		description: "Renvoie des informations sur la database",
+		slash: false,
+		category: "admin",
+		aliases: ["db"],
+		usage: "database",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 		let guildProfile = await GuildModel.findOne({ guildID: message.guild.id });
 		

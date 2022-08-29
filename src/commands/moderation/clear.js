@@ -24,23 +24,49 @@ let clearMessages = async (amount, channel) => {
   }
 };
 module.exports = {
-  name: "clear",
-  description: "Clear messages",
-  type: ["slash", "cmd"],
-  aliases: ["purge", "delete", "clean"],
-  build: new SlashCommandBuilder()
-    .setName("clear")
-    .setDescription("Supprimer plusieurs messages")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-    .addNumberOption((option) =>
-      option
-        .setName("amount")
-        .setDescription("Nombre de messages à supprimer")
-        .setMinValue(1)
-        .setMaxValue(300)
-        .setRequired(true)
-    ),
-  deletemsg: true,
+  help: {
+    name: "clear",
+    description: "Supprimer plusieurs messages",
+    slash: 'both',
+    category: "moderation",
+    aliases: ["clear", "purge", "delete"],
+    usage: "clear <nombre>",
+    cooldown: 5,
+    permission: "ManageMessages",
+    deletemsg: true,
+  },
+  slash: [
+    {
+      name: "clear",
+      description: "Supprimer plusieurs messages",
+      default_member_permissions: "ManageMessages",
+      options: [
+        {
+          name: "amount",
+          description: "Nombre de messages à supprimer",
+          type: 10,
+          min_value: 1,
+          max_value: 300,
+          required: true,
+        },
+      ],
+    },
+    {
+      name: "purge",
+      description: "Supprimer plusieurs messages",
+      default_member_permissions: PermissionFlagsBits.ManageMessages,
+      options: [
+        {
+          name: "amount",
+          description: "Nombre de messages à supprimer",
+          type: 10,
+          min_value: 1,
+          max_value: 300,
+          required: true,
+        },
+      ],
+    }
+  ],
   run: async (client, message, args) => {
     let amount = args[0] || 100;
     if(amount > 300) return message.channel.send({content: "❌ Vous ne pouvez pas supprimer plus de **300** messages !"});

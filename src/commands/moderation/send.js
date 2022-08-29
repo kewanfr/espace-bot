@@ -1,27 +1,38 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
-  name: "send",
-  description: "Faire envoyer un message par le bot",
-  type: ["slash", "cmd"],
-  aliases: ["message", "msg"],
-  build: new SlashCommandBuilder()
-    .setName("send")
-    .setDescription("Faire envoyer un message par le bot")
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-    .addStringOption((option) =>
-      option
-        .setName("message")
-        .setDescription("Message à envoyer")
-        .setRequired(true)
-    )
-    .addChannelOption((option) =>
-      option
-        .setName("salon")
-        .setDescription("Salon où envoyer le message")
-        .setRequired(false)
-    ),
-  deletemsg: true,
+  help: {
+    name: "send",
+    description: "Faire envoyer un message par le bot",
+    slash: 'both',
+    category: "moderation",
+    aliases: ["message", "msg"],
+    usage: "send <content>",
+    cooldown: 5,
+    permission: "ManageMessages",
+    deletemsg: true,
+  },
+  slash: [
+    {
+      name: 'send',
+      description: 'Faire envoyer un message par le bot',
+      default_member_permissions: "ManageMessages",
+      options: [
+        {
+          required: true,
+          type: 3,
+          name: 'message',
+          description: 'Message à envoyer'
+        },
+        {
+          required: false,
+          type: 7,
+          name: 'salon',
+          description: 'Salon où envoyer le message'
+        }
+      ],
+    }
+  ],
   run: async (client, message, args) => {
     let content = args.join(" ");
     if(!content) return message.channel.send({content: "❌ Vous devez entrer un message à envoyer !"});

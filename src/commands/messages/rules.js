@@ -1,11 +1,17 @@
 const { ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
-	name: "rules",
-	description: "Règlement",
-	type: ["cmd"],
-	deletemsg: true,
-
+	help: {
+		name: "rules-msg",
+		description: "Envoie le msg du salon Règlement",
+		slash: false,
+		category: "messages",
+		aliases: ["rules-msg"],
+		usage: "rules-msg",
+		cooldown: 5,
+		permission: "Administrator",
+		deletemsg: true,
+	},
 	run: async(client, message, args) => {
 		const button = new ButtonBuilder().setCustomId("birthdate-btn").setLabel("✅ Accepter le règlement").setStyle(ButtonStyle.Success);
 		await message.channel.send({
