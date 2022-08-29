@@ -14,10 +14,10 @@ module.exports = {
     if(cmdName.length == 0) return;
 
     let cmd = client.commands.get(cmdName);
-    if(!cmd) cmd = client.commands.find(cmd => cmd.aliases?.includes(cmdName));
+    if(!cmd) cmd = client.commands.find(cmd => cmd.help.aliases?.includes(cmdName));
     if(!cmd) return;
 
-    if(cmd.deletemsg) message.delete();
+    if(cmd.help.deletemsg) message.delete();
 
     try {
       cmd.run(client, message, args);

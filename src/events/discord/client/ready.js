@@ -5,7 +5,7 @@ module.exports = {
 	once: true,
 	async execute(client) {
 		
-		let commands = client.slashCommands.map(cmd => cmd.build.toJSON());
+		let commands = client.slashCommands.map(cmd => cmd.slash);
 		if (commands.length > 0) {
 			client.rest.put(Routes.applicationGuildCommands(client.config.clientId, client.config.guildId), { body: commands })
       .then(() => client.log.client('Commandes slash chargées avec succès.'))
