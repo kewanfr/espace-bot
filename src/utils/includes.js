@@ -6,6 +6,14 @@ var _warn = console.warn;
 var _info = console.info;
 var _debug = console.debug;
 
+console._log = (...args) => {
+  _log(...args);
+};
+
+console._error = (...args) => {
+  _error(...args);
+};
+
 console.log = (...args) => {
   // _log(...args);
   Logger.log([...args]);

@@ -52,11 +52,11 @@ require("./utils/handlers/EventsHandler")(client);
 process.on("exit", code => { client.log.client(`Le processus s'est arrêté avec le code: ${code}!`) });
 process.on("uncaughtException", (err, origin) => {
   client.log.error(`UNCAUGHT_EXCEPTION: ${err}`);
-  console.error(`Origine: ${origin}`)
+  console._error(`Origine: ${origin}`)
 });
 process.on("unhandledRejection", (reason, promise) => {
   client.log.warn(`UNHANDLED_REJECTION: ${reason}`);
-  console.log(promise);
+  console._log(promise);
 });
 process.on("warning", (...args) => client.log.warn(...args));
 
