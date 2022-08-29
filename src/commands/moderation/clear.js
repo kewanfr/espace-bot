@@ -54,7 +54,7 @@ module.exports = {
     {
       name: "purge",
       description: "Supprimer plusieurs messages",
-      default_member_permissions: PermissionFlagsBits.ManageMessages,
+      default_member_permissions: "ManageMessages",
       options: [
         {
           name: "amount",

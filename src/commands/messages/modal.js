@@ -4,42 +4,46 @@ const {
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
-  PermissionFlagsBits
+  PermissionFlagsBits,
 } = require("discord.js");
 
 const command = async (interaction) => {
   const modal = new ModalBuilder()
     .setCustomId("birthdate")
     .setTitle("Votre date de naissance")
-    .setDescription("Pour connaitre votre âge, nous devons connaitre votre date de naissance.\nCelle-ci ne sera pas visible par les autres membres du serveur.")
-    .setColor("#00ff00")
+    .setDescription(
+      "Pour connaitre votre âge, nous devons connaitre votre date de naissance.\nCelle-ci ne sera pas visible par les autres membres du serveur."
+    )
+    .setColor("#00ff00");
 
-    const textInput = new TextInputBuilder()
+  const textInput = new TextInputBuilder()
     .setName("birthdateInput")
     .setLabel("Date de naissance")
     .setPlaceholder("JJ/MM/AAAA")
     .setStyle(TextInputStyle.Short)
     .setRequired(true);
 
-    modal.addComponents(new ActionRowBuilder().addComponents([textInput]));
+  modal.addComponents(new ActionRowBuilder().addComponents([textInput]));
 
-    await interaction.showModal(modal);
+  await interaction.showModal(modal);
 };
 
 module.exports = {
-	help: {
-		name: "modal",
-		description: "Envoie le msg de modal",
-		slash: true,
-		category: "messages",
-		deletemsg: true,
-	},
-  slash: [new SlashCommandBuilder()
-    .setName("modal")
-    .setDescription("Renvoie un modal")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator).toJSON()
+  help: {
+    name: "modal",
+    description: "Envoie le msg de modal",
+    slash: true,
+    category: "messages",
+    deletemsg: true,
+  },
+  slash: [
+    {
+      name: "modal",
+      description: "Renvoie un modal",
+      default_member_permissions: "Administrator",
+    },
   ],
   runSlash: async (client, interaction) => {
-    command(interaction)
+    command(interaction);
   },
 };
