@@ -13,6 +13,7 @@ module.exports = {
         await command.runSlash(client, interaction)
       } catch (error) {
         console.error(error);
+        console._error(error);
         await interaction.reply({content: `Une erreur est survenue lors de l'éxecution de la commande`, ephemeral: true});
       }
     }else if (interaction.isButton()){

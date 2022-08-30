@@ -4,7 +4,8 @@ const dayjs = require('dayjs');
 const format = `{tstamp} {tag} {txt}\n`;
 
 const error = (content) => {
-  write(content, 'black', 'bgRed', 'ERROR', true);
+  write("", 'black', 'bgRed', 'ERROR', true);
+  console._error(content);
 }
 
 const warn = (content) => {

@@ -66,4 +66,11 @@ client.login(TOKEN);
 
 (async() => {
   await mongoose.connect(config.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(console.error);
+
+  mongoose.connection.on("error", console.error);
+  mongoose.connection.on("err", console.error);
+  mongoose.connection.on("disconnected", () => console.log("MongoDB disconnected!"));
+  mongoose.connection.on("connected", () => console.log("MongoDB connected!"));
+  mongoose.connection.on("reconnected", () => console.log("MongoDB reconnected!"));
+  mongoose.connection.on("connecting", () => console.log("MongoDB connecting!"));
 })();
