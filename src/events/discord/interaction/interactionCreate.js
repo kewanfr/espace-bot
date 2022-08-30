@@ -32,7 +32,14 @@ module.exports = {
     }else if (interaction.isSelectMenu()){
       const { selectMenus } = client;
       const {customId} = interaction;
-      const menu = selectMenus.get(customId) || selectMenus.find(m => m.data?.ids?.includes(customId));
+
+      var menu;
+      if(customId.includes("{id}")){
+        menu = selectMenus.get(customId.split("{id}")[0]);
+      }else {
+        menu = selectMenus.get(customId) || selectMenus.find(m => m.data?.ids?.includes(customId));
+      }
+
       if(!menu) return new Error(`SelectMenu with customId ${customId} not found`);
       
       try {
