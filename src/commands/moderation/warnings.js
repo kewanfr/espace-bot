@@ -1,10 +1,9 @@
 const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
   EmbedBuilder,
   userMention,
 } = require("discord.js");
 const { warnsModel } = require("../../schemas");
+const { returnWarns, addWarn } = require("../../utils/functions/warnsFunctions");
 
 module.exports = {
   help: {
@@ -32,6 +31,34 @@ module.exports = {
               description: "Utilisateur à avertir",
               type: 6,
               required: true,
+            },
+            {
+              name: "type",
+              description: "Type de l'avertissement",
+              type: 3,
+              required: true,
+              choices: [
+                {
+                  name: "Spam",
+                  value: "spam",
+                },
+                {
+                  name: "Publicité",
+                  value: "publicite",
+                },
+                {
+                  name: "Demande de nude",
+                  value: "demande_nude",
+                },
+                {
+                  name: "Insultes",
+                  value: "insultes",
+                },
+                {
+                  name: "Autre",
+                  value: "autre",
+                }
+              ],
             },
             {
               name: "raison",
@@ -105,6 +132,7 @@ module.exports = {
       "clear",
     ]);
     const Target = interaction.options.getUser("user");
+    const Type = interaction.options.getString("type") || "autre";
     const Reason = interaction.options.getString("raison");
     const Severity = interaction.options.getString("niveau") || 1;
     const WarnId = interaction.options.getNumber("id") - 1;
@@ -113,38 +141,7 @@ module.exports = {
     ).toLocaleDateString();
 
     if (Sub === "add") {
-      let data = await warnsModel
-        .findOne({ userID: Target.id, guildID: interaction.guild.id })
-        .catch(console.error);
-
-      if (!data) {
-        data = new warnsModel({
-          guildID: interaction.guild.id,
-          userID: Target.id,
-          userTag: Target.tag,
-          content: [
-            {
-              executorID: interaction.user.id,
-              executorTag: interaction.user.tag,
-              reason: Reason,
-              type: "warn",
-              date: WarnDate,
-              severity: Severity,
-            },
-          ],
-        });
-      } else {
-        const obj = {
-          executorID: interaction.user.id,
-          executorTag: interaction.user.tag,
-          reason: Reason,
-          type: "warn",
-          date: WarnDate,
-          severity: Severity,
-        };
-        data.content.push(obj);
-      }
-      data.save();
+      await addWarn(interaction, Target, Reason, Type, WarnDate, Severity);
 
       interaction.reply({
         embeds: [
@@ -152,7 +149,7 @@ module.exports = {
             .setTitle(`Avertissement`)
             .setColor("Blurple")
             .setDescription(
-              `${userMention(Target.id)} a été averti\n**Raison**: ${Reason}\n**Gravité**: ${Severity}\n**Averti par**: ${userMention(interaction.user.id)}\n**Date**: ${WarnDate}`
+              `${userMention(Target.id)} a été averti\n**Type**: ${Type}\n**Raison**: ${Reason}\n**Gravité**: ${Severity}\n**Averti par**: ${userMention(interaction.user.id)}\n**Date**: ${WarnDate}`
             ),
         ],
       });
@@ -166,14 +163,7 @@ module.exports = {
           .setTitle(`Avertissements de ${Target.tag}`)
           .setColor("Blurple")
           .setDescription(
-            `${data.content
-              .map(
-                (w, i) =>
-                  `**ID**: ${i + 1}\n**Averti par**: ${userMention(
-                    w.executorID
-                  )}\n**Date**: ${w.date}\n**Raison**: ${w.reason}\n**Gravité**: ${w.severity}\n\n`
-              )
-              .join(" ")}`
+            `${await returnWarns(data.content)}`
           );
 
         interaction.reply({ embeds: [embed], ephemeral: true });
@@ -204,7 +194,7 @@ module.exports = {
                 .setTitle(`Avertissement supprimé`)
                 .setColor("Blurple")
                 .setDescription(
-                  `L'avertissement #${WarnId + 1} de ${userMention(Target.id)} a été supprimé\n${data.content.map((w, i) => `**ID**: ${i + 1}\n**Averti par**: ${userMention(w.executorID)}\n**Date**: ${w.date}\n**Raison**: ${w.reason}\n**Gravité**: ${w.severity}\n\n`).join(" ")}`
+                  `L'avertissement #${WarnId + 1} de ${userMention(Target.id)} a été supprimé\n${await returnWarns(data.content)}`
                 ),
             ],
             ephemeral: true 
@@ -217,7 +207,7 @@ module.exports = {
                 .setColor("Blurple")
                 .setDescription(
                   `L'avertissement #${WarnId + 1} de ${userMention(Target.id)} n'existe pas\n
-                  Liste des avertissements:\n${data.content.map((w, i) => `**ID**: ${i + 1}\n**Averti par**: ${userMention(w.executorID)}\n**Date**: ${w.date}\n**Raison**: ${w.reason}\n**Gravité**: ${w.severity}\n\n`).join(" ")}`),
+                  Liste des avertissements:\n${await returnWarns(data.content)}`),
             ],
             ephemeral: true
           });
