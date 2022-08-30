@@ -4,6 +4,10 @@ const {
   AttachmentBuilder,
 } = require("discord.js");
 
+const {
+  getPresentation,
+} = require("../../utils/functions/presentationFunctions");
+
 module.exports = {
   
   help: {
@@ -21,7 +25,7 @@ module.exports = {
   runContextMenu: async (client, interaction) => {
     let member = await interaction.guild.members.fetch(interaction.targetId);
 
-    let presentation = await client.getPresentation({ member: member, guild: interaction.guild }, true);
+    let presentation = await getPresentation(client, { member: member, guild: interaction.guild }, true);
     let avatar = new AttachmentBuilder(member.user.displayAvatarURL({ format: 'png', size: 1024 }));
 
     await interaction.reply({
