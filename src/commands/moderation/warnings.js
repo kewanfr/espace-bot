@@ -72,7 +72,7 @@ module.exports = {
               type: 3,
               required: false,
               min_value: 1,
-              max_value: 3,
+              max_value: 4,
             },
           ],
         },
@@ -166,7 +166,7 @@ module.exports = {
             `${await returnWarns(data.content)}`
           );
 
-        interaction.reply({ embeds: [embed], ephemeral: true });
+        interaction.reply({ embeds: [embed]});
       } else {
         interaction.reply({
           embeds: [

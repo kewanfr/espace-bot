@@ -34,7 +34,7 @@ module.exports = {
 
     const severityInput = new TextInputBuilder()
     .setCustomId("severity")
-    .setLabel("Gravité (Entre 1 et 3)")
+    .setLabel("Gravité (Entre 1 et 4)")
     .setPlaceholder("Gravité")
     .setStyle(TextInputStyle.Short)
     .setValue(typeSeverity[type] || "1")
@@ -50,7 +50,8 @@ module.exports = {
       filter: i => i.customId === "warn-usermodal",
     }).then(async (inte) => {
       const raison = inte.fields.getTextInputValue("raison");
-      const severity = inte.fields.getTextInputValue("severity");
+      const severity = parseInt(inte.fields.getTextInputValue("severity"));x
+      if(severity > 4 || severity < 1) return inte.reply({content: "La gravité doit être comprise entre 1 et 4", ephemeral: true});
       await addWarn(inte, targetMember, raison, type, WarnDate, severity);
 
       await inte.reply({
