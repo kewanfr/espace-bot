@@ -2,7 +2,7 @@
 const { Client, Partials, Collection } = require("discord.js");
 const { Channel, GuildMember, Message, Reaction, ThreadMember, User, GuildScheduledEvent } = Partials;
 
-const Logger = require("./utils/Logger");
+const Logger = require("./utils/logger");
 require("./utils/includes");
 
 console.log("[Discord.js]", "Initializing...");
