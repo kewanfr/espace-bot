@@ -19,7 +19,8 @@ module.exports = {
     }else if (interaction.isButton()){
       const { buttons } = client;
       const {customId} = interaction;
-      const button = buttons.get(customId) || buttons.find(btn => btn.data?.ids?.includes(customId));
+      interaction.IntType = "button";
+      const button = buttons.get(customId) || buttons.find(btn => btn.data?.buttons?.includes(customId)) || buttons.find(btn => btn.data?.ids?.includes(customId));
       if(!button) return new Error(`Button with customId ${customId} not found`);
 
       try {
@@ -32,12 +33,13 @@ module.exports = {
     }else if (interaction.isSelectMenu()){
       const { selectMenus } = client;
       const {customId} = interaction;
+      interaction.IntType = "selectMenu";
 
       var menu;
       if(customId.includes("{id}")){
-        menu = selectMenus.get(customId.split("{id}")[0]);
+        menu = selectMenus.get(customId.split("{id}")[0]) || selectMenus.find(m => m.data?.selectMenus?.includes(customId.split("{id}")[0]));
       }else {
-        menu = selectMenus.get(customId) || selectMenus.find(m => m.data?.ids?.includes(customId));
+        menu = selectMenus.get(customId) || selectMenus.find(m => m.data?.selectMenus?.includes(customId)) || selectMenus.find(m => m.data?.ids?.includes(customId));
       }
 
       if(!menu) return new Error(`SelectMenu with customId ${customId} not found`);
@@ -51,8 +53,9 @@ module.exports = {
     }else if(interaction.type == InteractionType.ModalSubmit){
       const { modals } = client;
       const {customId} = interaction;
+      interaction.IntType = "modal";
 
-      const modal = modals.get(customId) || modals.find(modal => modal.data?.ids?.includes(customId));
+      const modal = modals.get(customId) || modals.find(modal => modal.data?.modals?.includes(customId)) || modals.find(modal => modal.data?.ids?.includes(customId));
       if(!modal) return new Error(`Modal with customId ${customId} not found`);
 
       try {
