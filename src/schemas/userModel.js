@@ -10,6 +10,8 @@ const userSchema = new Schema({
   avatar: String,
   roles: [String],
   joinedAt: Date,
+  prenom: String,
+  verified: Boolean,
 
   birthdate: Date,
   age: Number,
