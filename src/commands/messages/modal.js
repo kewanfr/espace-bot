@@ -9,7 +9,7 @@ const {
 
 const command = async (interaction) => {
   const modal = new ModalBuilder()
-    .setCustomId("birthdate")
+    .setCustomId("birthdate-modal")
     .setTitle("Votre date de naissance")
     .setDescription(
       "Pour connaitre votre âge, nous devons connaitre votre date de naissance.\nCelle-ci ne sera pas visible par les autres membres du serveur."
