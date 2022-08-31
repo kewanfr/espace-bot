@@ -9,7 +9,7 @@ const { createTranscript } = require("discord-html-transcripts");
 module.exports = {
   data: {
     name: "ticket-action",
-    ids: ["ticket-saveandclose", "ticket-close", "ticket-lock", "ticket-unlock"],
+    buttons: ["ticket-saveandclose", "ticket-close", "ticket-lock", "ticket-unlock"],
   },
   async execute(client, interaction) {
     let { customId, guild, member, channel } = interaction;

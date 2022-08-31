@@ -13,7 +13,7 @@ module.exports = {
 		deletemsg: true,
 	},
 	run: async(client, message, args) => {
-		const presentationButton = new ButtonBuilder().setCustomId("presentation").setLabel("📝 Rédiger ma présentation").setStyle(ButtonStyle.Success);
+		const presentationButton = new ButtonBuilder().setCustomId("edit-presentation").setLabel("📝 Rédiger ma présentation").setStyle(ButtonStyle.Success);
     let socialButton = new ButtonBuilder().setCustomId("add-social-presentation").setLabel("Ajouter mes réseaux sociaux").setStyle(ButtonStyle.Secondary)
     let deleteButton = new ButtonBuilder().setCustomId("delete-presentation").setLabel("🗑 Supprimer ma présentation").setStyle(ButtonStyle.Danger)
 		await message.channel.send({

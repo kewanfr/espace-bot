@@ -33,6 +33,31 @@ module.exports = async (client) => {
           modals.set(modal.data.name, modal);
         }
         break;
+
+        case "features":
+          for(const file of componentFiles){
+            const feature = require(`${process.cwd()}/src/components/${folder}/${file}`);
+            if(feature.data.buttons?.length > 0){
+              for(const buttonName of feature.data.buttons){
+                // log.component(`- ${buttonName} (feature: ${feature.data.name})`, "BTN");
+                buttons.set(feature.data.name, feature);
+              }
+            }
+            if(feature.data.selectMenus?.length > 0){
+              for(const menuName of feature.data.selectMenus){
+                // log.component(`- ${menuName} (feature: ${feature.data.name})`, "MENU");
+                selectMenus.set(feature.data.name, feature);
+              }
+            }
+            if(feature.data.modals?.length > 0){
+              for(const modalName of feature.data.modals){
+                // log.component(`- ${modalName} (feature: ${feature.data.name})`, "MODAL");
+                modals.set(feature.data.name, feature);
+              }
+            }
+            log.component(`- ${feature.data.name}`, "FEATURE");
+          }
+          break;
         
       default:
 
