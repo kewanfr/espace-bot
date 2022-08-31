@@ -38,63 +38,14 @@ module.exports = {
       let day = parseInt(split[0]);
       let month = parseInt(split[1]);
       let year = parseInt(split[2]);
-      if(!day || !month || !year || isNaN(day) || isNaN(month) || isNaN(day) || day > 31 || month > 12) return interaction.reply({
+      if(!client.testBirthdate(birthdate) || !day || !month || !year || isNaN(day) || isNaN(month) || isNaN(day) || day > 31 || month > 12) return interaction.reply({
         content: "❌ Veuillez entrer une date de naissance valide.\nFormat : JJ/MM/AAAA (exemple : 01/12/2000)",
         ephemeral: true
       });
       const age = await client.getAgeFromDate(new Date(`${month}-${day}-${year}`));
-      let birthdateDate = `${year}-${month}-${day}`;
-
-      let user = await UserModel.findOne({
-        userID: interaction.user.id,
-        guildID: interaction.guild.id,
-      });
-      let birthdateEntry = await BirthdateModel.findOne({
-        userID: interaction.user.id,
-        guildID: interaction.guild.id,
-      });
-
-      if (!user) {
-        user = await new UserModel({
-          _id: mongoose.Types.ObjectId(),
-          userID: interaction.user.id,
-          guildID: interaction.guild.id,
-          username: interaction.user.username,
-          discriminator: interaction.user.discriminator,
-          nickname: interaction.member.displayName,
-          avatar: interaction.user.displayAvatarURL(),
-          roles: interaction.member.roles.cache.map((r) => r.id),
-          joinedAt: interaction.member.joinedAt,
-          age: age,
-
-          birthdate: birthdateDate,
-        });
-
-        await user.save().catch(console.error);
-      } else {
-        user.birthdate = birthdateDate;
-        user.age = age;
-        await user.save().catch(console.error);
-      }
-
-      if (!birthdateEntry) {
-        birthdateEntry = await new BirthdateModel({
-          _id: mongoose.Types.ObjectId(),
-          userID: interaction.user.id,
-          guildID: interaction.guild.id,
-          birthdate: birthdateDate,
-          day: day,
-          month: month,
-          year: year,
-        });
-        await birthdateEntry.save().catch(console.error);
-      } else {
-        birthdateEntry.birthdate = birthdateDate;
-        birthdateEntry.day = day;
-        birthdateEntry.month = month;
-        birthdateEntry.year = year;
-        await birthdateEntry.save().catch(console.error);
-      }
+      
+      await client.setBirthdate(interaction, day, month, year, age);
+      
 
       interaction.member.roles.add(client.config.roles.member);
 

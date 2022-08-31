@@ -37,7 +37,7 @@ module.exports = {
 
       var menu;
       if(customId.includes("{id}")){
-        menu = selectMenus.get(customId.split("{id}")[0]);
+        menu = selectMenus.get(customId.split("{id}")[0]) || selectMenus.find(m => m.data?.selectMenus?.includes(customId.split("{id}")[0]));
       }else {
         menu = selectMenus.get(customId) || selectMenus.find(m => m.data?.selectMenus?.includes(customId)) || selectMenus.find(m => m.data?.ids?.includes(customId));
       }
