@@ -5,7 +5,7 @@ let clearMessages = async (amount, channel) => {
     await channel.bulkDelete(amount, true);
     return true;
   } else if (amount <= 200) {
-    await interaction.channel.bulkDelete(100, true);
+    await channel.bulkDelete(100, true);
     let left = amount - 100;
     setTimeout(() => {
       channel.bulkDelete(left, true);
