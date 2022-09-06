@@ -56,7 +56,7 @@ module.exports = {
         .setStyle(TextInputStyle.Short)
         .setRequired(true);
 
-      const description = new TextInputBuilder()
+      const birthdateInput = new TextInputBuilder()
         .setCustomId("birthdate")
         .setLabel("Date de naissance")
         .setPlaceholder("Format : JJ/MM/AAAA (exemple : 01/12/2000)")
@@ -65,7 +65,7 @@ module.exports = {
 
       modal.addComponents(
         new ActionRowBuilder().addComponents([prenom]),
-        new ActionRowBuilder().addComponents([description])
+        new ActionRowBuilder().addComponents([birthdateInput])
       );
 
       await interaction.showModal(modal);
@@ -159,6 +159,11 @@ module.exports = {
               value: `no`,
               emoji: "❌",
             }),
+            new SelectMenuOptionBuilder({
+              label: `Supprimer le salon, autre raison`,
+              value: `delete`,
+              emoji: "🗑",
+            }),
           ]);
 
           await chann.send({
@@ -216,6 +221,17 @@ module.exports = {
         await interaction.channel.send({
           content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
         });
+      } else if (action === "delete") {
+        await client.setUserInfo(targetMember, guild, [
+          { key: "verified", value: false },
+        ]);
+        await targetMember.roles.remove(client.config.roles.verified);
+        await interaction.channel.send({
+          content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nCe salon sera supprimé d'ici quelques minutes.`,
+        });
+        setTimeout(() => {
+          interaction.channel.delete();
+        }, 2 * 3600);
       }
     }
     // console.log(customId);

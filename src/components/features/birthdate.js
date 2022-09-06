@@ -34,6 +34,7 @@ module.exports = {
       await interaction.showModal(modal);
     } else if (customId === "birthdate-modal") {
       let birthdate = interaction.fields.getTextInputValue("birthdateInput");
+      console.log(`${interaction.user.tag}: ${birthdate}`);
       let split = birthdate.split("/");
       let day = parseInt(split[0]);
       let month = parseInt(split[1]);
