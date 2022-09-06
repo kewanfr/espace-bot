@@ -119,13 +119,13 @@ module.exports = {
 		let dbUser = await client.getUserInfos(member, guild);
 		if(statusMatter && presentationDb && presentationDb.status !== "published") return `❌ La présentation de ce membre n'existe pas ou n'est pas publiée.`;
     if(!presentationDb) {
+      return `❌ La présentation de ce membre n'existe pas ou n'est pas publiée.`;
+    }
+    if(presentationDb) {
       if(!presentationDb.age && dbUser.age) {
         presentationDb.age = dbUser.age;
         await presentationDb.save().catch(console.error);
       }
-      return `❌ La présentation de ce membre n'existe pas ou n'est pas publiée.`;
-    }
-    if(presentationDb) {
       return await presentationFieldsParse({guild, member}, presentationDb);
     }
 		return `❌ La présentation de ce membre n'existe pas ou n'est pas publiée.`;
