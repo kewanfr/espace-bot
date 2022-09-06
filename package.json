@@ -1,6 +1,6 @@
 {
   "name": "ragf-bot",
-  "version": "0.1.0-beta",
+  "version": "1.0.0-beta",
   "description": "",
   "main": "main.js",
   "scripts": {
