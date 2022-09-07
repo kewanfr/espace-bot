@@ -45,36 +45,43 @@ module.exports = {
       });
       const age = await client.getAgeFromDate(new Date(`${month}-${day}-${year}`));
       
-      await client.setBirthdate(interaction, day, month, year, age);
-      
-
-      interaction.member.roles.add(client.config.roles.member);
-
-      let roles = client.config.roles.age;
-      let allRoles = Object.keys(roles).map((r) => roles[r]);
-      interaction.member.roles.cache.map((r) => {
-        if (allRoles.includes(r.id)) {
-          interaction.member.roles.remove(r.id);
+      if(age > 30){
+        return await interaction.reply({
+          content: `❌ Vous avez + de 30 ans, vous ne pouvez pas acceder au serveur !`,
+          ephemeral: true,
+        })
+      }else {
+        await client.setBirthdate(interaction, day, month, year, age);
+        
+  
+        interaction.member.roles.add(client.config.roles.member);
+  
+        let roles = client.config.roles.age;
+        let allRoles = Object.keys(roles).map((r) => roles[r]);
+        interaction.member.roles.cache.map((r) => {
+          if (allRoles.includes(r.id)) {
+            interaction.member.roles.remove(r.id);
+          }
+        });
+        interaction.member.roles.add(roles[age]);
+  
+        if (interaction.channel.id === client.config.channels.birthdays) {
+          await interaction.reply({
+            content: `✅ Date de naissance modifiée: ${interaction.fields.getTextInputValue(
+              "birthdateInput"
+            )}`,
+            ephemeral: true,
+          });
+        } else {
+          await interaction.reply({
+            content: `✅ Votre date de naissance a été définie sur: ${interaction.fields.getTextInputValue(
+              "birthdateInput"
+            )}\nVous pouvez désormais acceder au serveur, on espère qu'il vous plaira !\nVous pouvez choisir vos rôles dans <#${
+              client.config.channels.roles
+            }>`,
+            ephemeral: true,
+          });
         }
-      });
-      interaction.member.roles.add(roles[age]);
-
-      if (interaction.channel.id === client.config.channels.birthdays) {
-        await interaction.reply({
-          content: `✅ Date de naissance modifiée: ${interaction.fields.getTextInputValue(
-            "birthdateInput"
-          )}`,
-          ephemeral: true,
-        });
-      } else {
-        await interaction.reply({
-          content: `✅ Votre date de naissance a été définie sur: ${interaction.fields.getTextInputValue(
-            "birthdateInput"
-          )}\nVous pouvez désormais acceder au serveur, on espère qu'il vous plaira !\nVous pouvez choisir vos rôles dans <#${
-            client.config.channels.roles
-          }>`,
-          ephemeral: true,
-        });
       }
     } else if (customId === "choose-birthday-msg") {
       let value = interaction.values[0];
