@@ -106,6 +106,8 @@ module.exports = {
         case "edit-presentation":
           let dbUser = await client.getUserInfos(interaction.member, interaction.guild);
           let region = departementsByRegions[dbUser.region];
+
+          console.log(region);
           const modal = new ModalBuilder()
             .setCustomId("presentation-modal")
             .setTitle("Présentation");
@@ -120,9 +122,10 @@ module.exports = {
           const Localisation = new TextInputBuilder()
             .setCustomId("localisation")
             .setLabel("Département/Ville(s)")
-            .setPlaceholder(region.name)
             .setStyle(TextInputStyle.Short)
             .setRequired(false);
+
+          if(region?.name) Localisation.setPlaceholder(region.name);
           
           const physique = new TextInputBuilder()
             .setCustomId("desc_physique")
