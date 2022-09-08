@@ -210,6 +210,9 @@ module.exports = {
         await interaction.reply({
           content: `✅ ${userMention(targetMember.id)} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
         });
+        await interaction.member.send({
+          content: `✅ ${userMention(targetMember.id)} votre vérification a été validée sur \`${interaction.guild.name}\` !\nVous êtes désormais **Membre vérifié**.`,
+        });
         setTimeout(() => {
           interaction.channel.delete();
         }, 15 * 3600);
