@@ -50,7 +50,7 @@ module.exports = {
       filter: i => i.customId === "warn-usermodal",
     }).then(async (inte) => {
       const raison = inte.fields.getTextInputValue("raison");
-      const severity = parseInt(inte.fields.getTextInputValue("severity"));x
+      const severity = parseInt(inte.fields.getTextInputValue("severity"));
       if(severity > 4 || severity < 1) return inte.reply({content: "La gravité doit être comprise entre 1 et 4", ephemeral: true});
       await addWarn(inte, targetMember, raison, type, WarnDate, severity);
 

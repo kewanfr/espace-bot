@@ -94,7 +94,7 @@ module.exports = {
     );
 
     if (!data) {
-      interaction.reply({
+      return interaction.reply({
         embeds: [
           new EmbedBuilder()
             .setTitle(`Avertissement de ${targetMember.tag}`)
@@ -109,7 +109,7 @@ module.exports = {
         ephemeral: true,
       });
     } else {
-      interaction.reply({
+      return interaction.reply({
         embeds: [
           new EmbedBuilder()
             .setTitle(`Avertissements de ${targetMember.tag}`)
