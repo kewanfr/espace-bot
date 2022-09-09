@@ -21,7 +21,7 @@ module.exports = {
     name: "verif-member",
     buttons: ["verif-member-btn", "verif-member-btn2"],
     modals: ["verif-member-modal"],
-    selectMenus: ["verif-menu-"]
+    selectMenus: ["verif-menu-"],
   },
   async execute(client, interaction) {
     let { customId, guild, member, channel } = interaction;
@@ -204,16 +204,16 @@ module.exports = {
             ephemeral: true,
           });
         });
-    }else if (customId.startsWith("verif-menu-")){
+    } else if (customId.startsWith("verif-menu-")) {
       const userId = customId.split("{id}")[1];
       const targetMember = await guild.members.fetch(userId);
       const action = interaction.values[0];
 
       if (!member.permissions.has(PermissionFlagsBits.ManageMessages))
-      return interaction.reply({
-        content: "❌ Seul le staff peut utiliser ces boutons",
-        ephemeral: true,
-      });
+        return interaction.reply({
+          content: "❌ Seul le staff peut utiliser ces boutons",
+          ephemeral: true,
+        });
 
       if (action === "yes") {
         await client.setUserInfo(targetMember, guild, [
@@ -224,11 +224,21 @@ module.exports = {
           { channelID: channel.id },
           { status: "verified" }
         );
+        let userDb = await verifModel.findOne(
+          { channelID: channel.id },
+        );
+
         await interaction.reply({
-          content: `✅ ${userMention(targetMember.id)} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
+          content: `✅ ${userMention(
+            targetMember.id
+          )} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
         });
-        await interaction.member.send({
-          content: `✅ ${userMention(targetMember.id)} votre vérification a été validée sur \`${interaction.guild.name}\` !\nVous êtes désormais **Membre vérifié**.`,
+        await targetMember.send({
+          content: `✅ ${userMention(
+            targetMember.id
+          )} votre vérification a été validée sur \`${
+            interaction.guild.name
+          }\` !\nVous êtes désormais **Membre vérifié**.`,
         });
 
         const attachment = await createTranscript(channel, {
@@ -237,30 +247,27 @@ module.exports = {
           fileName: `verif${targetMember.user.tag}.html`,
         });
 
+        setTimeout(() => {
+          interaction.channel.delete();
+        }, 15 * 3600);
+
         const Message = await guild.channels.cache
           .get(client.config.channels.tickets.transcript)
           .send({
             embeds: [
-              Embed.setAuthor({
-                name: MEMBER.user.tag,
-                icon_url: MEMBER.user.displayAvatarURL(),
-              })
-                .setTitle(`Type: ${docs.type} | ID: ${docs.ticketID}`)
+              new EmbedBuilder()
+                .setAuthor({
+                  name: targetMember.user.tag,
+                  icon_url: targetMember.user.displayAvatarURL(),
+                })
+                .setTitle(`Prénom: ${userDb.prenom}`)
                 .setDescription(
-                  `**Membre**: ${userMention(MEMBER.id)}\n**Sujet**: ${
-                    docs.sujet
-                  }\n**Message**: ${
-                    docs.description
-                  }\n\nTicket fermé par ${userMention(member.id)}`
+                  `**Membre**: ${userMention(targetMember.id)}\n**Prénom**: ${userDb.prenom}\n**Date de naissance**: ${userDb.birthdate}\n**Token**: ${userDb.token}\n\nTicket fermé par ${userMention(member.id)}`
                 )
                 .setColor("Purple"),
             ],
             files: [attachment],
           });
-
-        setTimeout(() => {
-          interaction.channel.delete();
-        }, 15 * 3600);
       } else if (action === "no") {
         await client.setUserInfo(targetMember, guild, [
           { key: "verified", value: false },
@@ -270,20 +277,24 @@ module.exports = {
           { channelID: channel.id },
           { status: "notverified" }
         );
-        await interaction.channel.send({
-          content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
+        await targetMember.send({
+          content: `❌ ${userMention(
+            targetMember.id
+          )} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
         });
       } else if (action === "delete") {
-        await client.setUserInfo(targetMember, guild, [
-          { key: "verified", value: false },
-        ]);
-        await targetMember.roles.remove(client.config.roles.verified);
+        // await client.setUserInfo(targetMember, guild, [
+        //   { key: "verified", value: false },
+        // ]);
+        // await targetMember.roles.remove(client.config.roles.verified);
         await verifModel.updateOne(
           { channelID: channel.id },
           { status: "deleted" }
         );
         await interaction.channel.send({
-          content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nCe salon sera supprimé d'ici quelques minutes.`,
+          content: `❌ ${userMention(
+            targetMember.id
+          )} votre vérification a été refusée.\nCe salon sera supprimé d'ici quelques minutes.`,
         });
         setTimeout(() => {
           interaction.channel.delete();
