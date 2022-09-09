@@ -224,6 +224,10 @@ module.exports = {
           { channelID: channel.id },
           { status: "verified" }
         );
+        let userDb = await verifModel.findOne(
+          { channelID: channel.id },
+        );
+
         await interaction.reply({
           content: `✅ ${userMention(
             targetMember.id
@@ -256,9 +260,9 @@ module.exports = {
                   name: targetMember.user.tag,
                   icon_url: targetMember.user.displayAvatarURL(),
                 })
-                .setTitle(`Type: ${docs.type} | ID: ${docs.ticketID}`)
+                .setTitle(`Prénom: ${userDb.prenom}`)
                 .setDescription(
-                  `**Membre**: ${userMention(targetMember.id)}\\n**Prénom**: ${prenom}\n**Date de naissance**: ${birthdate}\n**Age**: ${age} ans\n**Token**: ${token}\n\nTicket fermé par ${userMention(member.id)}`
+                  `**Membre**: ${userMention(targetMember.id)}\n**Prénom**: ${userDb.prenom}\n**Date de naissance**: ${userDb.birthdate}\n**Token**: ${userDb.token}\n\nTicket fermé par ${userMention(member.id)}`
                 )
                 .setColor("Purple"),
             ],
