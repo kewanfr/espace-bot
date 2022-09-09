@@ -229,7 +229,7 @@ module.exports = {
             targetMember.id
           )} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
         });
-        await interaction.member.send({
+        await targetMember.send({
           content: `✅ ${userMention(
             targetMember.id
           )} votre vérification a été validée sur \`${
@@ -243,31 +243,27 @@ module.exports = {
           fileName: `verif${targetMember.user.tag}.html`,
         });
 
+        setTimeout(() => {
+          interaction.channel.delete();
+        }, 15 * 3600);
+
         const Message = await guild.channels.cache
           .get(client.config.channels.tickets.transcript)
           .send({
             embeds: [
               new EmbedBuilder()
                 .setAuthor({
-                  name: MEMBER.user.tag,
-                  icon_url: MEMBER.user.displayAvatarURL(),
+                  name: targetMember.user.tag,
+                  icon_url: targetMember.user.displayAvatarURL(),
                 })
                 .setTitle(`Type: ${docs.type} | ID: ${docs.ticketID}`)
                 .setDescription(
-                  `**Membre**: ${userMention(MEMBER.id)}\n**Sujet**: ${
-                    docs.sujet
-                  }\n**Message**: ${
-                    docs.description
-                  }\n\nTicket fermé par ${userMention(member.id)}`
+                  `**Membre**: ${userMention(targetMember.id)}\\n**Prénom**: ${prenom}\n**Date de naissance**: ${birthdate}\n**Age**: ${age} ans\n**Token**: ${token}\n\nTicket fermé par ${userMention(member.id)}`
                 )
                 .setColor("Purple"),
             ],
             files: [attachment],
           });
-
-        setTimeout(() => {
-          interaction.channel.delete();
-        }, 15 * 3600);
       } else if (action === "no") {
         await client.setUserInfo(targetMember, guild, [
           { key: "verified", value: false },
@@ -277,16 +273,16 @@ module.exports = {
           { channelID: channel.id },
           { status: "notverified" }
         );
-        await interaction.channel.send({
+        await targetMember.send({
           content: `❌ ${userMention(
             targetMember.id
           )} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
         });
       } else if (action === "delete") {
-        await client.setUserInfo(targetMember, guild, [
-          { key: "verified", value: false },
-        ]);
-        await targetMember.roles.remove(client.config.roles.verified);
+        // await client.setUserInfo(targetMember, guild, [
+        //   { key: "verified", value: false },
+        // ]);
+        // await targetMember.roles.remove(client.config.roles.verified);
         await verifModel.updateOne(
           { channelID: channel.id },
           { status: "deleted" }
