@@ -13,6 +13,8 @@ const {
   SelectMenuBuilder,
   SelectMenuOptionBuilder,
 } = require("discord.js");
+const { createTranscript } = require("discord-html-transcripts");
+const verifModel = require("../../schemas/verifModel");
 
 module.exports = {
   data: {
@@ -166,6 +168,17 @@ module.exports = {
             }),
           ]);
 
+          await verifModel.create({
+            _id: mongoose.Types.ObjectId(),
+            userID: member.id,
+            guildID: guild.id,
+            channelID: chann.id,
+            token: token,
+            status: "open",
+            prenom: prenom,
+            birthdate: birthdate,
+          });
+
           await chann.send({
             content: userMention(member.user.id),
             embeds: [
@@ -207,12 +220,44 @@ module.exports = {
           { key: "verified", value: true },
         ]);
         await targetMember.roles.add(client.config.roles.verified);
+        await verifModel.updateOne(
+          { channelID: channel.id },
+          { status: "verified" }
+        );
         await interaction.reply({
           content: `✅ ${userMention(targetMember.id)} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
         });
         await interaction.member.send({
           content: `✅ ${userMention(targetMember.id)} votre vérification a été validée sur \`${interaction.guild.name}\` !\nVous êtes désormais **Membre vérifié**.`,
         });
+
+        const attachment = await createTranscript(channel, {
+          limit: -1,
+          returnBuffer: false,
+          fileName: `verif${targetMember.user.tag} - ${docs.ticketID}.html`,
+        });
+
+        const Message = await guild.channels.cache
+          .get(client.config.channels.tickets.transcript)
+          .send({
+            embeds: [
+              Embed.setAuthor({
+                name: MEMBER.user.tag,
+                icon_url: MEMBER.user.displayAvatarURL(),
+              })
+                .setTitle(`Type: ${docs.type} | ID: ${docs.ticketID}`)
+                .setDescription(
+                  `**Membre**: ${userMention(MEMBER.id)}\n**Sujet**: ${
+                    docs.sujet
+                  }\n**Message**: ${
+                    docs.description
+                  }\n\nTicket fermé par ${userMention(member.id)}`
+                )
+                .setColor("Purple"),
+            ],
+            files: [attachment],
+          });
+
         setTimeout(() => {
           interaction.channel.delete();
         }, 15 * 3600);
@@ -221,6 +266,10 @@ module.exports = {
           { key: "verified", value: false },
         ]);
         await targetMember.roles.remove(client.config.roles.verified);
+        await verifModel.updateOne(
+          { channelID: channel.id },
+          { status: "notverified" }
+        );
         await interaction.channel.send({
           content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
         });
@@ -229,6 +278,10 @@ module.exports = {
           { key: "verified", value: false },
         ]);
         await targetMember.roles.remove(client.config.roles.verified);
+        await verifModel.updateOne(
+          { channelID: channel.id },
+          { status: "deleted" }
+        );
         await interaction.channel.send({
           content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nCe salon sera supprimé d'ici quelques minutes.`,
         });
