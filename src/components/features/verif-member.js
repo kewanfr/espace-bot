@@ -21,7 +21,7 @@ module.exports = {
     name: "verif-member",
     buttons: ["verif-member-btn", "verif-member-btn2"],
     modals: ["verif-member-modal"],
-    selectMenus: ["verif-menu-"]
+    selectMenus: ["verif-menu-"],
   },
   async execute(client, interaction) {
     let { customId, guild, member, channel } = interaction;
@@ -204,16 +204,16 @@ module.exports = {
             ephemeral: true,
           });
         });
-    }else if (customId.startsWith("verif-menu-")){
+    } else if (customId.startsWith("verif-menu-")) {
       const userId = customId.split("{id}")[1];
       const targetMember = await guild.members.fetch(userId);
       const action = interaction.values[0];
 
       if (!member.permissions.has(PermissionFlagsBits.ManageMessages))
-      return interaction.reply({
-        content: "❌ Seul le staff peut utiliser ces boutons",
-        ephemeral: true,
-      });
+        return interaction.reply({
+          content: "❌ Seul le staff peut utiliser ces boutons",
+          ephemeral: true,
+        });
 
       if (action === "yes") {
         await client.setUserInfo(targetMember, guild, [
@@ -225,10 +225,16 @@ module.exports = {
           { status: "verified" }
         );
         await interaction.reply({
-          content: `✅ ${userMention(targetMember.id)} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
+          content: `✅ ${userMention(
+            targetMember.id
+          )} votre vérification a été validée !\nCe salon sera supprimé dans les prochaines minutes.`,
         });
         await interaction.member.send({
-          content: `✅ ${userMention(targetMember.id)} votre vérification a été validée sur \`${interaction.guild.name}\` !\nVous êtes désormais **Membre vérifié**.`,
+          content: `✅ ${userMention(
+            targetMember.id
+          )} votre vérification a été validée sur \`${
+            interaction.guild.name
+          }\` !\nVous êtes désormais **Membre vérifié**.`,
         });
 
         const attachment = await createTranscript(channel, {
@@ -241,10 +247,11 @@ module.exports = {
           .get(client.config.channels.tickets.transcript)
           .send({
             embeds: [
-              Embed.setAuthor({
-                name: MEMBER.user.tag,
-                icon_url: MEMBER.user.displayAvatarURL(),
-              })
+              new EmbedBuilder()
+                .setAuthor({
+                  name: MEMBER.user.tag,
+                  icon_url: MEMBER.user.displayAvatarURL(),
+                })
                 .setTitle(`Type: ${docs.type} | ID: ${docs.ticketID}`)
                 .setDescription(
                   `**Membre**: ${userMention(MEMBER.id)}\n**Sujet**: ${
@@ -271,7 +278,9 @@ module.exports = {
           { status: "notverified" }
         );
         await interaction.channel.send({
-          content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
+          content: `❌ ${userMention(
+            targetMember.id
+          )} votre vérification a été refusée.\nVeuillez vous assurer que la photo est correcte, contient le bon numéro et que vous n'êtes pas dans la limite d'âge du serveur.\nPour plus d'informations, veuillez demander à un membre du staff dans ce salon.`,
         });
       } else if (action === "delete") {
         await client.setUserInfo(targetMember, guild, [
@@ -283,7 +292,9 @@ module.exports = {
           { status: "deleted" }
         );
         await interaction.channel.send({
-          content: `❌ ${userMention(targetMember.id)} votre vérification a été refusée.\nCe salon sera supprimé d'ici quelques minutes.`,
+          content: `❌ ${userMention(
+            targetMember.id
+          )} votre vérification a été refusée.\nCe salon sera supprimé d'ici quelques minutes.`,
         });
         setTimeout(() => {
           interaction.channel.delete();
