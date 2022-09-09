@@ -234,7 +234,7 @@ module.exports = {
         const attachment = await createTranscript(channel, {
           limit: -1,
           returnBuffer: false,
-          fileName: `verif${targetMember.user.tag} - ${docs.ticketID}.html`,
+          fileName: `verif${targetMember.user.tag}.html`,
         });
 
         const Message = await guild.channels.cache
