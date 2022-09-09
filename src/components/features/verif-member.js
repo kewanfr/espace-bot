@@ -199,6 +199,8 @@ module.exports = {
             components: [new ActionRowBuilder().addComponents(verifMenu)],
           });
 
+          console.log(`[VERIF] ${member.user.tag} a créé un ticket de vérification`);
+
           interaction.reply({
             content: "Votre ticket a bien été créé: <#" + chann.id + ">",
             ephemeral: true,
@@ -216,6 +218,7 @@ module.exports = {
         });
 
       if (action === "yes") {
+        console.log(`[VERIF] ${targetMember.user.tag} a été vérifié`);
         await client.setUserInfo(targetMember, guild, [
           { key: "verified", value: true },
         ]);
@@ -269,6 +272,7 @@ module.exports = {
             files: [attachment],
           });
       } else if (action === "no") {
+        console.log(`[VERIF] ${targetMember.user.tag} a été refusé`);
         await client.setUserInfo(targetMember, guild, [
           { key: "verified", value: false },
         ]);
