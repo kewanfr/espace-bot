@@ -39,7 +39,7 @@ module.exports = {
       let day = parseInt(split[0]);
       let month = parseInt(split[1]);
       let year = parseInt(split[2]);
-      if(!client.testBirthdate(birthdate) || !day || !month || !year || isNaN(day) || isNaN(month) || isNaN(day) || day > 31 || month > 12) return interaction.reply({
+      if(!client.testBirthdate(birthdate) || !day || !month || !year || isNaN(day) || isNaN(month) || isNaN(year) || day > 31 || month > 12 || year < 1900) return interaction.reply({
         content: "❌ Veuillez entrer une date de naissance valide.\nFormat : JJ/MM/AAAA (exemple : 01/12/2000)",
         ephemeral: true
       });
@@ -47,7 +47,7 @@ module.exports = {
       
       if(age > 30){
         return await interaction.reply({
-          content: `❌ Vous avez + de 30 ans, vous ne pouvez pas acceder au serveur !`,
+          content: `❌ Vous avez + de 30 ans, vous ne pouvez pas acceder au serveur !\nOu alors vous avez fait une erreur dans le format, il doit être: JJ/MM/AAAA (exemple : 01/12/2000)`,
           ephemeral: true,
         })
       }else {
