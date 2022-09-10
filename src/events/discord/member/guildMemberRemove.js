@@ -3,6 +3,7 @@ module.exports = {
   once: false,
   async execute(client, member) {
     console.log(`(${member.guild.name}) ${member.user.tag} a quitté le serveur !`);
+    if(member.user.bot) return;
     if(client.verifGuild(member.guild)){
       // client.updateStats(member.guild);
       const leaveChannel = member.guild.channels.cache.get(
