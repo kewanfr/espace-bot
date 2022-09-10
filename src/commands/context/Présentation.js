@@ -11,14 +11,14 @@ const {
 module.exports = {
   
   help: {
-    name: "Présentation",
+    name: "Presentation",
     description: "Obtenir la présentation d'un utilisateur",
     slash: "context",
     context: true
   },
   slash: [
     {
-      name: "Présentation",
+      name: "Presentation",
       type: ApplicationCommandType.User,
     }
   ],		
