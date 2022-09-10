@@ -5,9 +5,9 @@ const birthdateSchema = new Schema({
   userID: String,
   guildID: String,
   birthdate: Date,
-  day: String,
-  month: String,
-  year: String,
+  day: Number,
+  month: Number,
+  year: Number,
   birthdayMsg: Boolean,
 });
 

@@ -40,9 +40,9 @@ module.exports = (client) => {
         userID: interaction.user.id,
         guildID: interaction.guild.id,
         birthdate: birthdateDate,
-        day: day,
-        month: month,
-        year: year,
+        day: parseInt(day),
+        month: parseInt(month),
+        year: parseInt(year),
       });
       await birthdateEntry.save().catch(console.error);
     } else {
