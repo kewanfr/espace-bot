@@ -3,6 +3,7 @@ const { SlashCommandBuilder, Routes } = require('discord.js');
 module.exports = {
 	name: 'ready',
 	once: true,
+	dev: true,
 	async execute(client) {
 		
 		let commands = client.slashCommands.map(cmd => cmd.slash);

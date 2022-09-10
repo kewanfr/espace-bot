@@ -6,6 +6,8 @@ let logsFolder = `${process.cwd()}/logs`;
 
 if(!fs.existsSync(logsFolder)) fs.mkdirSync(logsFolder);
 let formatLogs = "YYYY-MM-DD_HH_mm";
+mode = "dev"
+if(mode == "dev") formatLogs = "YYYY-MM-DD_HH";
 let name = `${dayjs().format(formatLogs)}.txt`;
 var log_file = fs.createWriteStream(`${logsFolder}/${name}`, { flags: 'w' });
 
@@ -67,8 +69,6 @@ const debug = (content) => {
 const write = (content, tagColor, bgTagColor, tag, error = false) => {
   const timestamp = `[${dayjs().format('DD/MM - HH:mm:ss')}]`;
   const logTag = `[${tag}]`;
-  let logContent = `${timestamp} ${logTag} ${util.format(content)}`;
-  log_file.write(util.format(logContent) + '\n');
   const stream = error ? process.stderr : process.stdout;
   if(Array.isArray(content)) {
     let msg = "";
@@ -79,6 +79,8 @@ const write = (content, tagColor, bgTagColor, tag, error = false) => {
     content = msg;
   }
   if(typeof content === 'object') content = JSON.stringify(content, false, 2);
+  let logContent = `${timestamp} ${logTag} ${util.format(content)}`;
+  log_file.write(logContent + '\n');
   const item = format
     .replace('{tstamp}', chalk.gray(timestamp))
     .replace('{tag}', chalk[bgTagColor][tagColor](logTag))

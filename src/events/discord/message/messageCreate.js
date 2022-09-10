@@ -1,6 +1,7 @@
 module.exports = {
   name: "messageCreate",
   once: false,
+  dev: true,
   async execute(client, message) {
     
     if(message.author.bot) return;
