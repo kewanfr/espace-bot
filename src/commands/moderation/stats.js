@@ -20,8 +20,8 @@ module.exports = {
   },
   run: async (client, message, args) => {
     let guild = message.guild;
-    let members = guild.members.cache;
-    let membersSize = members.filter((m) => !m.user.bot).size;
+    let members = guild.members.cache.filter((m) => !m.user.bot);
+    let membersSize = members.size;
     let membersWithRole = members.filter((m) =>
       m.roles.cache.get(client.config.roles.member)
     ).size;

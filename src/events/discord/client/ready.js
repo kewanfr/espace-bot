@@ -19,6 +19,7 @@ module.exports = {
 		let today = new Date();
 		if (!birthdateData) {
 			birthdateData = await Data.create({ name: 'lastBirthdateUpdate', value: today.getTime(), date: today });
+			client.emit('birthdatesUpdate');
 		}
 
 		client.birthdateFunction = async () => {

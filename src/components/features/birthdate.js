@@ -3,7 +3,6 @@ const {
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
-  ModalSubmitInteraction,
 } = require("discord.js");
 
 module.exports = {
@@ -53,7 +52,7 @@ module.exports = {
       }else {
         await client.setBirthdate(interaction, day, month, year, age);
         
-  
+
         interaction.member.roles.add(client.config.roles.member);
   
         let roles = client.config.roles.age;
