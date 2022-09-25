@@ -8,6 +8,8 @@ module.exports = async (client) => {
   (await pGlob(`${process.cwd()}/src/commands/*/*.js`)).forEach((cmdFile) => {
     const cmd = require(cmdFile);
 
+    if(client.config.mode == 'dev') return;
+
     if(cmd.help?.slash == "both" || cmd.help?.slash == true || cmd.help?.context == true) {
       cmd.slash.forEach((slash) => {
         if(!cmd.help.context) {
