@@ -36,6 +36,7 @@ module.exports = {
   run: async (client, message, args) => {
     let content = args.join(" ");
     if(!content) return message.channel.send({content: "❌ Vous devez entrer un message à envoyer !"});
+    content = content.replace("%everyone", "@everyone").replace("%here", "@here");
     message.channel.send({content});
   },
   runSlash: async (client, interaction) => {
