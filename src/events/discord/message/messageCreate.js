@@ -19,7 +19,7 @@ module.exports = {
     if(!cmd) return;
 
     if(cmd.help.deletemsg) message.delete();
-
+    console.cmdExec(`Commande ${cmd.name} executée par ${message.author.username} (${message.author.id})`);
     try {
       cmd.run(client, message, args);
     } catch (error) {

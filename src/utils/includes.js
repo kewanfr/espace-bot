@@ -24,6 +24,10 @@ console.error = (...args) => {
   Logger.error([...args]);
 }
 
+console.cmdExec = (...args) => {
+  Logger.commandExec([...args]);
+}
+
 console.warn = (...args) => {
   // _warn(...args);
   Logger.warn([...args]);
