@@ -35,6 +35,7 @@ module.exports = {
 		permission: "Administrator",
 		deletemsg: false,
 	},
+	dev: true,
 	run: async(client, message, args) => {
 
 		try {

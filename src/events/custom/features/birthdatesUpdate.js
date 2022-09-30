@@ -47,9 +47,10 @@ module.exports = {
 
       let embed = new EmbedBuilder()
         .setTitle(`Anniversaires du mois de ${monthName}`)
-        .setColor("Random");
+        .setColor("Random")
+        .setFooter({text: "Seuls les membres ayant accepté de partager leur date de naissance sont affichés."})
 
-      let birthdatesInMonth = birthdatesDb.filter((b) => b.month == month);
+      let birthdatesInMonth = birthdatesDb.filter((b) => b.month == month && b.birthdayMsg == true);
       let monthBirthdates = {};
       for (let j = 0; j < birthdatesInMonth.length; j++) {
         let birthdate = birthdatesInMonth[j];
@@ -76,7 +77,7 @@ module.exports = {
       });
     }
 
-    let users = await birthdateModel.find({ day: day, month: month });
+    let users = await birthdateModel.find({ day: day, month: month, birthdayMsg: true });
     if (users.length > 0) {
       users.forEach((user) => {
         let age = year - user.year;

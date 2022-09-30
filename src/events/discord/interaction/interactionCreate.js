@@ -9,7 +9,7 @@ module.exports = {
       const { commandName } = interaction;
       const command = slashCommands.get(commandName);
       if(!command) return;
-      console.cmdExec(`Commande slash ${command.name} executée par ${message.author.username} (${message.author.id})`);
+      console.cmdExec(`Commande slash ${commandName} executée par ${interaction.user.username} (${interaction.user.id})`);
       try {
         await command.runSlash(client, interaction)
       } catch (error) {
