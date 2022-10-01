@@ -1,8 +1,10 @@
+const dayjs = require("dayjs");
+
 module.exports = (client) => {
   const { UserModel, mongoose, BirthdateModel } = client;
 
   client.toTimestamp = (strDate) => {
-    return new Date(strDate / 1000).getTime()
+    return dayjs(strDate).unix(); // new Date(strDate / 1000).getTime()
   }
 
   client.generateNumber = (length) => {
