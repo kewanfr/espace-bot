@@ -1,6 +1,10 @@
 module.exports = (client) => {
   const { UserModel, mongoose, BirthdateModel } = client;
 
+  client.toTimestamp = (strDate) => {
+    return new Date(strDate / 1000).getTime()
+  }
+
   client.generateNumber = (length) => {
     return client.generateNumberBetween(Math.pow(10, length - 1), Math.pow(10, length) - 1);
   }
