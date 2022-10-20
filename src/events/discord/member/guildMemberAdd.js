@@ -48,9 +48,9 @@ module.exports = {
 
       logChannel.send({embeds: [embed]});
 
-      // welcomeChannel.send({
-      //   content: `😀 Bienvenue <@${member.user.id}> sur ${member.guild.name} !\nVous êtes le **${memberPosition}**ème membre de ce serveur, on espère qu'il vous plaîra !\n\nPour acceder au serveur, vous devez valider le <#${client.config.channels.rules}>, puis vous assigner vos <#${client.config.channels.roles}>`,
-      // });
+      welcomeChannel.send({
+        content: `😀 Bienvenue <@${member.user.id}> sur ${member.guild.name} !\nVous êtes le **${memberPosition}**ème membre de ce serveur, on espère qu'il vous plaîra !\n\nPour acceder au serveur, vous devez valider le <#${client.config.channels.rules}>, puis vous assigner vos <#${client.config.channels.roles}>`,
+      });
     }
   },
 };
