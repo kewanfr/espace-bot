@@ -105,9 +105,10 @@ module.exports = {
           
         case "edit-presentation":
           let dbUser = await client.getUserInfos(interaction.member, interaction.guild);
-          let region = departementsByRegions[dbUser.region];
 
-          console.log(region);
+          // let region = departementsByRegions[dbUser.region];
+          let regions = dbUser.region.map((r) => departementsByRegions[r].name).join(", ");
+
           const modal = new ModalBuilder()
             .setCustomId("presentation-modal")
             .setTitle("Présentation");
@@ -125,7 +126,7 @@ module.exports = {
             .setStyle(TextInputStyle.Short)
             .setRequired(false);
 
-          if(region?.name) Localisation.setPlaceholder(region.name);
+          if(regions) Localisation.setPlaceholder(regions);
           
           const physique = new TextInputBuilder()
             .setCustomId("desc_physique")

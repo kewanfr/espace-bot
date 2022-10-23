@@ -64,7 +64,9 @@ module.exports = {
 		if(dbUser.pronoms && dbUser.pronoms.length > 0) result.pronoms = dbUser.pronoms.map((g) => `${pronoms[g].emoji} ${pronoms[g].name}`).join(", ");
 		if(dbUser.orientation && dbUser.orientation.length > 0) result.orientation = dbUser.orientation.map((g) => `${orientations[g].emoji} ${orientations[g].name}`).join(", ");
 		if(dbUser.search && dbUser.search.length > 0) result.search = dbUser.search.map((g) => `${recherche[g].emoji} ${recherche[g].name}`).join(", ");
-		result.region = dbUser.region ? departementsByRegions[dbUser.region].name : "";
+		// result.region = dbUser.region ? departementsByRegions[dbUser.region].name : "";
+		result.region = dbUser.region ? dbUser.region.map((r) => departementsByRegions[r].name).join(", ") : "";
+
 		if(dbUser.statut && dbUser.statut.length > 0) result.statut = dbUser.statut.map((g) => `${statut[g].emoji} ${statut[g].name}`).join(", ");
 
 		let presentationDb = await PresentationModel.findOne({ userID: user.id, guildID: guild.id });
