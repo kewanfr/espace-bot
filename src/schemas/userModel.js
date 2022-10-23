@@ -19,7 +19,7 @@ const userSchema = new Schema({
   orientation: [String],
   pronoms: [String],
   search: [String],
-  region: String,
+  region: [String],
   statut: [String],
   
   // Custom

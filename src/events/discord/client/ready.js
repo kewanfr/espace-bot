@@ -1,6 +1,6 @@
 const { Routes } = require('discord.js');
 const Data = require('../../../schemas/dataModel');
-const { birthdateUpdateExecute } = require('../../../utils/functions/featuresFunctions');
+const { birthdateUpdateExecute, StatsUpdateExecute } = require('../../../utils/functions/featuresFunctions');
 
 module.exports = {
 	name: 'ready',
