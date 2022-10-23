@@ -74,7 +74,7 @@ module.exports = {
 		let regionMenu = new SelectMenuBuilder()
 		.setCustomId("choose-region")
 		.setMinValues(1)
-		.setMaxValues(1)
+		.setMaxValues(3)
 		.setPlaceholder("📍 Ma région");
 
 		regionMenu = await buildOptions(regionMenu, departementsByRegions);
