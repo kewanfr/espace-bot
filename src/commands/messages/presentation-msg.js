@@ -17,7 +17,7 @@ module.exports = {
     let socialButton = new ButtonBuilder().setCustomId("add-social-presentation").setLabel("Ajouter mes réseaux sociaux").setStyle(ButtonStyle.Secondary)
     let deleteButton = new ButtonBuilder().setCustomId("delete-presentation").setLabel("🗑 Supprimer ma présentation").setStyle(ButtonStyle.Danger)
 		await message.channel.send({
-			content: `Vous avez la possibilité de rédiger votre présentation en cliquant sur le boutton ci-dessous.\nCertaines informations, comme l'age, la région, les pronoms/genre seront automatiquement ajoutés si vous les avez renseignés dans les rôles. \nUne fois la présentation faite, vous pourrez la publier, elle sera ainsi publiée dans ce salon et accessible sur votre profile par tous les membres du serveur.`,
+			content: `<#1012076429099405483>:\n\nVous avez la possibilité de rédiger votre présentation en cliquant sur le bouton ci-dessous.\nCertaines informations, comme l'age, la région, les pronoms/genre seront automatiquement ajoutés si vous les avez renseignés dans les rôles. \nUne fois la présentation faite, vous pourrez la publier, elle sera disponible dans le salon <#1012076429099405483> et accessible sur votre profile par tous les membres du serveur.`,
 			components: [new ActionRowBuilder().addComponents([presentationButton, socialButton, deleteButton])]
 		});
 	},
