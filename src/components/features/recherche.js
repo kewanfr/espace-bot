@@ -22,6 +22,10 @@ module.exports = {
   async execute(client, interaction) {
     let { customId, guild, member, channel } = interaction;
 
+    let rechercheChannel = interaction.guild.channels.cache.get(
+      client.config.channels.recherche
+    );
+
     if (customId === "recherche-btn") {
       const modal = new ModalBuilder()
         .setCustomId("recherche-modal")
@@ -42,7 +46,7 @@ module.exports = {
 
       console.log(recherche);
       interaction.reply({content: `✅ Votre message a bien été envoyé !`, ephemeral: true});
-      interaction.channel.send(`
+      rechercheChannel.send(`
         ${userMention(member.user.id)} recherche:\n${recherche}
       `)
     }
