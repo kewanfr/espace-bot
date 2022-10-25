@@ -115,7 +115,7 @@ module.exports = {
     let authorObj = {};
     if(author_name) authorObj.name = author_name;
     if(author_icon) authorObj.icon_url = author_icon;
-    if(authorObj) embed.setAuthor(authorObj);
+    if(authorObj?.name) embed.setAuthor(authorObj);
     if(image) embed.setImage(image);
     if(thumbnail) embed.setThumbnail(thumbnail);
     if(footer) embed.setFooter({text: footer});
