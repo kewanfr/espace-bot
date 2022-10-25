@@ -12,7 +12,7 @@ module.exports = async (client) => {
     if(!eventList.includes(event.name)) return log.warn(`Evenement non-chargé: nom invalide\nFichier -> ${eventFile}`);
     if(!event.name) return log.warn(`Evenement non-chargé: pas de nom\nFichier -> ${eventFile}`);
     
-    if(client.config.mode == "dev" && !event.dev) return log.warn(`Evenement non-chargé: mode dev\nFichier -> ${eventFile}`);
+    if(client.config.execDev && !event.dev) return log.warn(`Evenement non-chargé: mode dev\nFichier -> ${eventFile}`);
 
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));
@@ -27,7 +27,7 @@ module.exports = async (client) => {
 
     if(!event.name) return log.warn(`Evenement non-chargé: pas de nom\nFichier -> ${eventFile}`);
     
-    if(client.config.mode == "dev" && !event.dev) return ;
+    if(client.config.execDev && !event.dev) return log.warn(`Evenement non-chargé: mode dev\nFichier -> ${eventFile}`);
 
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));

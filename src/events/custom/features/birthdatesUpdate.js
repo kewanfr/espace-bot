@@ -5,7 +5,6 @@ const userModel = require("../../../schemas/userModel");
 module.exports = {
   name: "birthdatesUpdate",
   once: false,
-  dev: true,
   async execute(client) {
     let today = new Date();
     let day = today.getDate();

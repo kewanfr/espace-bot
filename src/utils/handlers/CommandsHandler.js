@@ -8,7 +8,7 @@ module.exports = async (client) => {
   (await pGlob(`${process.cwd()}/src/commands/*/*.js`)).forEach((cmdFile) => {
     const cmd = require(cmdFile);
 
-    if(client.config.mode == 'dev') return;
+    if(client.config.execDev && !cmd.dev) return log.warn(`Commande non-chargée: mode dev\nFichier -> ${cmdFile}`);
 
     if(cmd.help?.slash == "both" || cmd.help?.slash == true || cmd.help?.context == true) {
       cmd.slash.forEach((slash) => {
