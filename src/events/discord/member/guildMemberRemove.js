@@ -8,7 +8,7 @@ module.exports = {
     console.log(`(${member.guild.name}) ${member.user.tag} a quitté le serveur !`);
     if(member.user.bot) return;
     if(client.verifGuild(member.guild)){
-      // client.updateStats(member.guild);
+      client.emit('statsChannelsUpdate');
 
       const memberPosition = member.guild.members.cache.filter((m) => !m.user.bot)
       .size;
