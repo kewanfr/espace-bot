@@ -81,7 +81,6 @@ module.exports = {
                 id: member.id,
                 allow: [
                   PermissionFlagsBits.ViewChannel,
-                  PermissionFlagsBits.ViewChannel,
                   PermissionFlagsBits.ReadMessageHistory,
                 ],
               },
@@ -92,7 +91,6 @@ module.exports = {
               {
                 id: guild.roles.everyone,
                 deny: [
-                  PermissionFlagsBits.ViewChannel,
                   PermissionFlagsBits.ViewChannel,
                   PermissionFlagsBits.ReadMessageHistory,
                 ],

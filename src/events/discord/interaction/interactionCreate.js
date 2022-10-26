@@ -21,7 +21,14 @@ module.exports = {
       const { buttons } = client;
       const {customId} = interaction;
       interaction.IntType = "button";
-      const button = buttons.get(customId) || buttons.find(btn => btn.data?.buttons?.includes(customId)) || buttons.find(btn => btn.data?.ids?.includes(customId));
+
+      var button
+      if(customId.includes("{id}")){
+        button = buttons.get(customId.split("{id}")[0]) || buttons.find(m => m.data?.buttons?.includes(customId.split("{id}")[0]));
+      }else {
+        button = buttons.get(customId) || buttons.find(m => m.data?.buttons?.includes(customId)) || buttons.find(m => m.data?.ids?.includes(customId));
+      }
+
       if(!button) return new Error(`Button with customId ${customId} not found`);
 
       try {

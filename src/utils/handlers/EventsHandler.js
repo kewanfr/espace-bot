@@ -12,7 +12,8 @@ module.exports = async (client) => {
     if(!eventList.includes(event.name)) return log.warn(`Evenement non-chargé: nom invalide\nFichier -> ${eventFile}`);
     if(!event.name) return log.warn(`Evenement non-chargé: pas de nom\nFichier -> ${eventFile}`);
     
-    if(client.config.execDev && !event.dev) return log.warn(`Evenement non-chargé: mode dev\nFichier -> ${eventFile}`);
+    if(client.config.execDev && !event.dev) return;
+    // if(client.config.execDev && !event.dev) return log.warn(`Evenement non-chargée: mode dev\nFichier -> ${eventFile}`);
 
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));
@@ -27,13 +28,24 @@ module.exports = async (client) => {
 
     if(!event.name) return log.warn(`Evenement non-chargé: pas de nom\nFichier -> ${eventFile}`);
     
-    if(client.config.execDev && !event.dev) return log.warn(`Evenement non-chargé: mode dev\nFichier -> ${eventFile}`);
+    if(client.config.execDev && !event.dev) return;
 
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));
     } else {
       client.on(event.name, (...args) => event.execute(client, ...args));
     }
+
+    log.event(`- ${event.name}`);
+  });
+  (await pGlob(`${process.cwd()}/src/events/features/*.js`)).forEach((eventFile) => {
+    const event = require(eventFile);
+
+    if(!event.name) return log.warn(`Evenement non-chargé: pas de nom\nFichier -> ${eventFile}`);
+
+    if(client.config.execDev && !event.dev) return;
+
+    event.execute(client);
 
     log.event(`- ${event.name}`);
   });
