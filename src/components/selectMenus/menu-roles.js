@@ -36,5 +36,7 @@ module.exports = {
       content: `✅ ${roles.length > 1 ? "Les roles" : "Le role"} **${roles.map((r) => `<@&${r.id}>`).join(", ")}** ${roles.length > 1 ? "ont été ajoutés" : "a été ajouté"} à votre profil.`,
       ephemeral: true
     })
+
+    console.log(`Les rôles ${roles.map((r) => `${r.name}`).join(", ")}** ont été ajoutés à ${interaction.member.user.tag} (${interaction.member.user.id})`);
   }
 }
