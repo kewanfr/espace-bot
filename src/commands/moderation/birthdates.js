@@ -1,11 +1,7 @@
 const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
   EmbedBuilder,
-  Message,
   userMention,
 } = require("discord.js");
-const { departementsByRegions } = require("../../utils/infos");
 const birthdateModel = require("../../schemas/birthdateModel");
 
 module.exports = {

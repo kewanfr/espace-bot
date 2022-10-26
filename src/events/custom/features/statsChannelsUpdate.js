@@ -6,7 +6,6 @@ module.exports = {
   once: false,
   async execute(client) {
     let statsData = await Data.findOne({ name: 'lastStatsUpdate' });
-    console.log(statsData);
     let now = new Date();
 		if (!statsData) {
 			statsData = await Data.create({ name: 'lastStatsUpdate', value: today.getTime(), date: now });
@@ -25,7 +24,7 @@ module.exports = {
     let guild = await client.guilds.fetch(client.config.guildId);
     
     let membresSize = guild.members.cache.filter(m => !m.user.bot).size;
-    let membresChannel = await guild.channels.fetch(statsChannels.obj.membres);
+    let membresChannel = await guild.channels.fetch(statsChannDatas.obj.membres);
     if(minutes >= 5 && membresChannel) {
       membresChannel.setName(`👥・Membres : ${membresSize}`);
 		}else {
@@ -41,7 +40,6 @@ module.exports = {
       statsChannDatas.date = now;
       await statsChannDatas.save();
 		}
-
 
     statsData.value = now.getTime();
     statsData.date = now;

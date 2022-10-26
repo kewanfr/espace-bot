@@ -305,6 +305,5 @@ module.exports = {
         }, 2 * 3600);
       }
     }
-    // console.log(customId);
   },
 };

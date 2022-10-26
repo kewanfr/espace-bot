@@ -1,19 +1,14 @@
-// Require the necessary discord.js classes
+// Require the necessary discord.js classes and modules
 const { Client, Partials, Collection } = require("discord.js");
 const { Channel, GuildMember, Message, Reaction, ThreadMember, User, GuildScheduledEvent } = Partials;
+const ms = require("ms");
 
-const Logger = require("./utils/logger");
-require("./utils/includes");
+//  require("./utils/logger");
+const Logger = require("./utils/includes");
 
 console.log("[Discord.js]", "Initializing...");
 
-// Require Modules
-const ms = require("ms");
-
-// Import Config
-const config = require("./config.js");
-const { TOKEN } = config;
-
+// Create a new client instance
 const client = new Client({
   // intents: 131071,
   intents: 3276799,
@@ -22,6 +17,9 @@ const client = new Client({
   rest: { timeout: ms("1m") }
 });
 
+// Import Config
+const config = require("./config.js");
+const { TOKEN } = config;
 client.config = config;
 
 // Create all components collections

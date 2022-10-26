@@ -28,7 +28,7 @@ module.exports = {
   },
   async execute(client, interaction) {
     let { customId, IntType, guild, member } = interaction;
-    console.log(IntType);
+
     switch (IntType) {
       case "button":
         let typeBtn = customId.split("-")[1];

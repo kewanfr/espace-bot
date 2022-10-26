@@ -42,3 +42,5 @@ console.debug = (...args) => {
   // _debug(...args);
   Logger.debug([...args]);
 }
+
+module.exports = Logger;
