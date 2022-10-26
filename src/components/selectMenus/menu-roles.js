@@ -1,4 +1,4 @@
-const { genres: gender, orientations: orientation, pronoms, recherche: search, statut } = require('../../utils/infos');
+const { genres: gender, orientations: orientation, pronoms, recherche: search, statut, mps } = require('../../utils/infos');
 
 module.exports = {
   data: {
@@ -9,6 +9,7 @@ module.exports = {
       'choose-pronoms',
       'choose-search',
       'choose-statut',
+      'choose-mps',
     ]
   },
   async execute(client, interaction) {
