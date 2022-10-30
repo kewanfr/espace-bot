@@ -24,7 +24,7 @@ module.exports = {
     let guild = await client.guilds.fetch(client.config.guildId);
     
     // let membresSize = guild.members.cache.filter(m => !m.user.bot).size;
-    let membresSize = message.guild.memberCount;
+    let membresSize = guild.memberCount;
     let membresChannel = await guild.channels.fetch(statsChannDatas.obj.membres);
     if(minutes >= 5 && membresChannel) {
       membresChannel.setName(`👥・Membres : ${membresSize}`);
