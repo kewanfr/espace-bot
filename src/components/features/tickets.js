@@ -7,7 +7,6 @@ const {
 } = require("discord.js");
 
 const ticketModel = require("../../schemas/ticketModel");
-const { createTranscript } = require("discord-html-transcripts");
 const { default: mongoose } = require("mongoose");
 
 module.exports = {

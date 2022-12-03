@@ -4,7 +4,7 @@ const {
   userMention,
 } = require("discord.js");
 const ticketModel = require("../../schemas/ticketModel");
-const { createTranscript } = require("discord-html-transcripts");
+// const { createTranscript } = require("discord-html-transcripts");
 
 module.exports = {
   data: {
@@ -84,11 +84,11 @@ module.exports = {
               "❌ Ce ticket est déjà fermé, veuillez attendre sa suppression",
             ephemeral: true,
           });
-        const attachment = await createTranscript(channel, {
-          limit: -1,
-          returnBuffer: false,
-          fileName: `${docs.type} - ${docs.ticketID}.html`,
-        });
+        // const attachment = await createTranscript(channel, {
+        //   limit: -1,
+        //   returnBuffer: false,
+        //   fileName: `${docs.type} - ${docs.ticketID}.html`,
+        // });
         await ticketModel.updateOne(
           { channelID: channel.id },
           { closed: true }
@@ -113,7 +113,7 @@ module.exports = {
                 )
                 .setColor("Purple"),
             ],
-            files: [attachment],
+            // files: [attachment],
           });
         
         interaction.reply({

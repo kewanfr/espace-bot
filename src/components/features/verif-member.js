@@ -244,11 +244,11 @@ module.exports = {
           }\` !\nVous êtes désormais **Membre vérifié**.`,
         });
 
-        const attachment = await createTranscript(channel, {
-          limit: -1,
-          returnBuffer: false,
-          fileName: `verif${targetMember.user.tag}.html`,
-        });
+        // const attachment = await createTranscript(channel, {
+        //   limit: -1,
+        //   returnBuffer: false,
+        //   fileName: `verif${targetMember.user.tag}.html`,
+        // });
 
         setTimeout(() => {
           interaction.channel.delete();
@@ -269,7 +269,7 @@ module.exports = {
                 )
                 .setColor("Purple"),
             ],
-            files: [attachment],
+            // files: [attachment],
           });
       } else if (action === "no") {
         console.log(`[VERIF] ${targetMember.user.tag} a été refusé`);
