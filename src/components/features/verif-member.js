@@ -13,7 +13,7 @@ const {
   SelectMenuBuilder,
   SelectMenuOptionBuilder,
 } = require("discord.js");
-const { createTranscript } = require("discord-html-transcripts");
+// const { createTranscript } = require("discord-html-transcripts");
 const verifModel = require("../../schemas/verifModel");
 
 module.exports = {
