@@ -7,3 +7,4 @@ generatecmd.js
 .*/
 playground/
 logs/
+package-lock.json
