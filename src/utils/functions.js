@@ -62,7 +62,7 @@ module.exports = (client) => {
 
   client.testBirthdate = (birthdate) => {
     const birthdateRegex =
-      /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/;
+      /^(?:[1-9]|[12]\d|3[01])([\/.-])(?:[1-9]|1[012])\1(?:19|20)\d\d$/;
 
     if (!birthdateRegex.test(birthdate)) {
       return false;

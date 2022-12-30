@@ -3,6 +3,10 @@ const {
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
+  SelectMenuBuilder,
+  ComponentBuilder,
+  Component,
+  ComponentType,
 } = require("discord.js");
 
 module.exports = {
@@ -12,6 +16,7 @@ module.exports = {
     buttons: ["birthdate-btn"],
     selectMenus: ["choose-birthday-msg"],
   },
+dev: true,
   async execute(client, interaction) {
     let { customId, guild, member, channel } = interaction;
     const { BirthdateModel, UserModel, mongoose } = client;
@@ -20,25 +25,43 @@ module.exports = {
       const modal = new ModalBuilder()
         .setCustomId("birthdate-modal")
         .setTitle("Votre date de naissance");
-
-      const textInput = new TextInputBuilder()
-        .setCustomId("birthdateInput")
-        .setLabel("Date de naissance")
-        .setPlaceholder("Format : JJ/MM/AAAA (exemple : 01/12/2000)")
+      const dayInput = new TextInputBuilder()
+        .setCustomId("dayInput")
+        .setLabel("Jour")
+        .setPlaceholder("Format: JJ (exemple : 12)")
         .setStyle(TextInputStyle.Short)
-        .setRequired(true);
+        .setRequired(true)
+        .setMinLength(1)
+        .setMaxLength(2);
 
-      modal.addComponents(new ActionRowBuilder().addComponents([textInput]));
+      const monthInput = new TextInputBuilder()
+        .setCustomId("monthInput")
+        .setLabel("Mois")
+        .setPlaceholder("Format: MM (exemple : 02 ou 2)")
+        .setStyle(TextInputStyle.Short)
+        .setRequired(true)
+        .setMinLength(1)
+        .setMaxLength(2);
+
+      const yearInput = new TextInputBuilder()
+        .setCustomId("yearInput")
+        .setLabel("Année")
+        .setPlaceholder("Format: AAAA (exemple : 2002)")
+        .setStyle(TextInputStyle.Short)
+        .setRequired(true)
+        .setMinLength(1)
+        .setMaxLength(2);
+
+      modal.addComponents(new ActionRowBuilder().addComponents([monthInput]), new ActionRowBuilder().addComponents([yearInput]));
 
       await interaction.showModal(modal);
     } else if (customId === "birthdate-modal") {
-      let birthdate = interaction.fields.getTextInputValue("birthdateInput");
+      let day = parseInt(interaction.fields.getTextInputValue("dayInput"));
+      let month = parseInt(interaction.fields.getTextInputValue("monthInput"));
+      let year = parseInt(interaction.fields.getTextInputValue("yearInput"));
+      let birthdate = `${day}/${month}/${year}`;
       console.log(`${interaction.user.tag}: ${birthdate}`);
-      let split = birthdate.split("/");
-      let day = parseInt(split[0]);
-      let month = parseInt(split[1]);
-      let year = parseInt(split[2]);
-      if(!client.testBirthdate(birthdate) || !day || !month || !year || isNaN(day) || isNaN(month) || isNaN(year) || day > 31 || month > 12 || year < 1900) return interaction.reply({
+      if(!client.testBirthdate(birthdate) || !day || !month || !year || isNaN(day) || isNaN(month) || isNaN(year) || day > 31 || month > 12 || year < 1990) return interaction.reply({
         content: "❌ Veuillez entrer une date de naissance valide.\nFormat : JJ/MM/AAAA (exemple : 01/12/2000)",
         ephemeral: true
       });
@@ -52,7 +75,6 @@ module.exports = {
       }else {
         await client.setBirthdate(interaction, day, month, year, age);
         
-
         interaction.member.roles.add(client.config.roles.member);
   
         let roles = client.config.roles.age;
@@ -66,16 +88,12 @@ module.exports = {
   
         if (interaction.channel.id === client.config.channels.birthdays) {
           await interaction.reply({
-            content: `✅ Date de naissance modifiée: ${interaction.fields.getTextInputValue(
-              "birthdateInput"
-            )}`,
+            content: `✅ Date de naissance modifiée: ${birthdate}`,
             ephemeral: true,
           });
         } else {
           await interaction.reply({
-            content: `✅ Votre date de naissance a été définie sur: ${interaction.fields.getTextInputValue(
-              "birthdateInput"
-            )}\nVous pouvez désormais acceder au serveur, on espère qu'il vous plaira !\nVous pouvez choisir vos rôles dans <#${
+            content: `✅ Votre date de naissance a été définie sur: ${birthdate}\nVous pouvez désormais acceder au serveur, on espère qu'il vous plaira !\nVous pouvez choisir vos rôles dans <#${
               client.config.channels.roles
             }>`,
             ephemeral: true,
