@@ -3,6 +3,10 @@ module.exports = {
   once: false,
   dev: true,
   async execute(client, message) {
+
+    if (message.content.startsWith(`<@${client.user.id}>`)) {
+      message.channel.send({content: `Mon préfixe est \`${client.config.prefix}\``});
+    }
     
     if(message.author.bot) return;
 
