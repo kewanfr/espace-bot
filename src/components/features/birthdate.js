@@ -49,7 +49,7 @@ dev: true,
         .setPlaceholder("Format: AAAA (exemple : 2002)")
         .setStyle(TextInputStyle.Short)
         .setRequired(true)
-        .setMinLength(1)
+        .setMinLength(3)
         .setMaxLength(4);
 
       modal.addComponents(new ActionRowBuilder().addComponents([dayInput]), new ActionRowBuilder().addComponents([monthInput]), new ActionRowBuilder().addComponents([yearInput]));
