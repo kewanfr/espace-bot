@@ -50,7 +50,7 @@ dev: true,
         .setStyle(TextInputStyle.Short)
         .setRequired(true)
         .setMinLength(1)
-        .setMaxLength(2);
+        .setMaxLength(4);
 
       modal.addComponents(new ActionRowBuilder().addComponents([dayInput]), new ActionRowBuilder().addComponents([monthInput]), new ActionRowBuilder().addComponents([yearInput]));
 
