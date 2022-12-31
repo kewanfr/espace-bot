@@ -52,7 +52,7 @@ dev: true,
         .setMinLength(1)
         .setMaxLength(2);
 
-      modal.addComponents(new ActionRowBuilder().addComponents([monthInput]), new ActionRowBuilder().addComponents([yearInput]));
+      modal.addComponents(new ActionRowBuilder().addComponents([dayInput]), new ActionRowBuilder().addComponents([monthInput]), new ActionRowBuilder().addComponents([yearInput]));
 
       await interaction.showModal(modal);
     } else if (customId === "birthdate-modal") {
